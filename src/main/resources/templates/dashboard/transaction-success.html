@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="common/modules/head :: head"></head>
+    <body>
+        <div th:replace="common/modules/auth-header :: header"></div>
+
+        <main th:fragment="content">
+            <h2>Le paiement a été effectué avec success !</h2>
+        </main>
+
+        <div th:replace="common/modules/footer :: footer"></div>
+    </body>
+</html>

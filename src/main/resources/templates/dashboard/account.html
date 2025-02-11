@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/modules/head :: head"></head>
+<body>
+<div th:replace="common/modules/auth-header :: header"></div>
+
+<main th:fragment="content">
+    <form th:action="@{/dashboard/account/change-password}" th:method="POST" class="form">
+        <h2>Mon compte</h2>
+        <label class="input-label">Nom d'utilisateur</label>
+        <input type="text" th:value="|@${username}|" disabled />
+        <label class="input-label">Adresse email</label>
+        <input type="text" th:value="${email}" disabled />
+        <input type="password" name="oldpassword" placeholder="Mot de passe actuel" />
+        <input type="password" name="newpassword" placeholder="Nouveau mot de passe" />
+        <button type="submit">Changer de mot de passe</button>
+    </form>
+    <label class="form-message error" th:if="${errorMessage}" th:text="${errorMessage}"></label>
+    <label class="form-message success" th:if="${successMessage}" th:text="${successMessage}"></label>
+</main>
+
+<div th:replace="common/modules/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="common/modules/head :: head"></head>
+
+    <body>
+        <div th:replace="common/modules/header :: header"></div>
+
+        <main th:fragment="content">
+            <form th:action="@{/register}" th:method="POST" class="form">
+                <h2>Inscription</h2>
+                <input type="username" name="username" placeholder="Nom d'utilisateur" />
+                <input type="email" name="email" placeholder="Adresse email" />
+                <input type="password" name="password" placeholder="Mot de passe" />
+                <input type="password" name="confirmPassword" placeholder="Confirmer le mot de passe" />
+                <button type="submit">S'inscrire</button>
+                <label class="form-message">Déjà un compte ? <a th:href="@{/login}">Se connecter</a></label>
+            </form>
+            <label class="form-message error" th:if="${errorMessage}" th:text="${errorMessage}"></label>
+        </main>
+
+        <div th:replace="common/modules/footer :: footer"></div>
+    </body>
+</html>

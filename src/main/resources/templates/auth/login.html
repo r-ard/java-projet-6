@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="common/modules/head :: head"></head>
+
+    <body>
+        <div th:replace="common/modules/header :: header"></div>
+
+        <main th:fragment="content">
+            <form th:action="@{/login}" th:method="POST" class="form">
+                <h2>Connexion</h2>
+                <input type="text" name="username" placeholder="Nom d'utilisateur ou adresse email" />
+                <input type="password" name="password" placeholder="Mot de passe" />
+                <button type="submit">Se connecter</button>
+                <label class="form-message">Pas de compte ? <a th:href="@{/register}">S'inscrire</a></label>
+            </form>
+            <label class="form-message error" th:if="${errorMessage}" th:text="${errorMessage}"></label>
+            <label class="form-message success" th:if="${successMessage}" th:text="${successMessage}"></label>
+        </main>
+
+        <div th:replace="common/modules/footer :: footer"></div>
+
+    </body>
+</html>
