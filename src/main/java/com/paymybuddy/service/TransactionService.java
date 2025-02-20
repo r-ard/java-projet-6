@@ -97,7 +97,7 @@ public class TransactionService {
                     transaction.getDescription(),
                     transaction.getAmount(),
                     transaction.getFee(),
-                    transaction.getCreatedAt().toString()
+                    transaction.getCreatedAt().toString().replace('T', ' ')
             );
 
             out.add(item);

@@ -243,3 +243,23 @@ a {
 .input-label {
     margin-bottom: 0;
 }
+
+.remember-me-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+    .remember-me-wrapper input {
+        min-width: 0;
+        box-shadow: none;
+    }
+
+    .remember-me-wrapper label {
+        margin-left: 8px;
+    }
+
+
+.account-form input {
+    min-width: 250px;
+}
