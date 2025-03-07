@@ -11,8 +11,8 @@
         <input type="text" th:value="|@${username}|" disabled />
         <label class="input-label">Adresse email</label>
         <input type="text" th:value="${email}" disabled />
-        <input type="password" name="oldpassword" placeholder="Mot de passe actuel" />
-        <input type="password" name="newpassword" placeholder="Nouveau mot de passe" />
+        <input type="password" name="oldpassword" aria-label="Mot de passe actuel" placeholder="Mot de passe actuel" aria-required="true" />
+        <input type="password" name="newpassword" aria-label="Nouveau mot de passe" placeholder="Nouveau mot de passe" aria-required="true" />
         <button type="submit">Changer de mot de passe</button>
     </form>
     <label class="form-message error" th:if="${errorMessage}" th:text="${errorMessage}"></label>

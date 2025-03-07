@@ -10,7 +10,7 @@
                 <table class="table table-hover table-responsive-xl">
                     <thead class="thead-light">
                     <tr>
-                        <th scope="col"></th>
+                        <th scope="col" aria-label="type">Type</th>
                         <th scope="col">Nom</th>
                         <th scope="col">Email</th>
                         <th scope="col">Description</th>
@@ -26,8 +26,8 @@
                         </th>
                     </tr>
                     <tr th:each="transaction : ${transactions}">
-                        <th scope="row" th:if="${transaction.isSent() == true}" title="Envoyé">-></th>
-                        <th scope="row" th:if="${transaction.isSent() == false}" title="Reçu"><-</th>
+                        <th scope="row" th:if="${transaction.isSent() == true}" title="Envoyé" aria-label="Envoyé">-></th>
+                        <th scope="row" th:if="${transaction.isSent() == false}" title="Reçu" aria-label="Reçu"><-</th>
                         <td th:text="${transaction.getNickname()}"></td>
                         <td th:text="${transaction.getEmail()}"></td>
                         <td th:text="${transaction.getDescription()}"></td>

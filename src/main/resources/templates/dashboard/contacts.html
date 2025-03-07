@@ -7,8 +7,8 @@
 
         <main th:fragment="content">
             <form th:action="@{/dashboard/contacts}" th:method="POST" class="form contact-form">
-                <input type="email" name="email" placeholder="Adresse email" />
-                <input type="text" name="name" placeholder="Surnom (optionnel)" />
+                <input type="email" name="email" placeholder="Adresse email" aria-label="Adresse email du contact" aria-required="true />
+                <input type="text" name="name" placeholder="Surnom (optionnel)" aria-label="Surnom du contact (optionnel)" />
                 <button type="submit">Ajouter</button>
             </form>
 

@@ -9,7 +9,7 @@
             <div class="form balance-wrapper">
                 <h2 class="balance-title">Montant : <span th:text="${balance}"></span>€</h2>
                 <div class="balance-actions">
-                    <a th:href="@{/dashboard/transaction}">Envoyer de l'argent</a>
+                    <a th:href="@{/dashboard/transaction}" aria-label="Envoyer de l'argent à un contact">Envoyer de l'argent</a>
                 </div>
             </div>
             <div class="form table-wrapper">
@@ -42,7 +42,7 @@
                     </tbody>
                 </table>
                 <div class="table-bottom-actions">
-                    <a th:href="@{/dashboard/activity}">Voir activités</a>
+                    <a th:href="@{/dashboard/activity}" aria-label="Voir toutes les activités récentes">Voir activités</a>
                 </div>
             </div>
         </main>

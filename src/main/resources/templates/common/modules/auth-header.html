@@ -5,23 +5,23 @@
 
         <hr class="horizontal-separator" />
 
-        <a th:classappend="${selectedTab == 1} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard}">
+        <a th:classappend="${selectedTab == 1} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard}" aria-label="Aperçu">
             Aperçu
         </a>
 
-        <a th:classappend="${selectedTab == 2} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard/activity}">
+        <a th:classappend="${selectedTab == 2} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard/activity}" aria-label="Activité">
             Activité
         </a>
 
-        <a th:classappend="${selectedTab == 3} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard/contacts}">
+        <a th:classappend="${selectedTab == 3} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard/contacts}" aria-label="Contacts">
             Contacts
         </a>
 
-        <a th:classappend="${selectedTab == 4} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard/account}">
+        <a th:classappend="${selectedTab == 4} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard/account}" aria-label="Mon compte">
             Mon compte
         </a>
 
-        <a class="nav-item logout-item" th:href="@{/logout}">
+        <a class="nav-item logout-item" th:href="@{/logout}" aria-label="Se déconnecter">
             Se déconnecter
         </a>
     </nav>
