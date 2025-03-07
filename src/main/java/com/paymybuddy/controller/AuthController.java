@@ -33,6 +33,7 @@ public class AuthController {
     public String showLoginForm(
             @RequestParam(value = "error", required = false) String error,
             @RequestParam(value = "success", required = false) String success,
+            @RequestParam(value = "logout", required = false) String logout,
             Model model
     ) {
         if(AuthenticationUtils.isClientAuthenticated()) {
@@ -49,13 +50,11 @@ public class AuthController {
             model.addAttribute("successMessage", "Votre compte a bien été créer, veuillez vous connecter");
         }
 
-        return "auth/login";
-    }
+        if(logout != null) {
+            model.addAttribute("successMessage", "Vous avez bien été déconnecté");
+        }
 
-    @GetMapping("/logout")
-    public String logoutUser(HttpServletRequest request, HttpServletResponse response) {
-        AuthenticationUtils.logoutClient(request, response);
-        return "redirect:/login?logout";
+        return "auth/login";
     }
 
     @GetMapping("/register")
