@@ -6,6 +6,7 @@ import com.paymybuddy.entity.Transaction;
 import com.paymybuddy.entity.User;
 import com.paymybuddy.exception.contact.NotContactOfUserException;
 import com.paymybuddy.exception.transaction.InsufficientBalanceException;
+import com.paymybuddy.exception.transaction.TransactionUserNotFoundException;
 import com.paymybuddy.repository.TransactionRepository;
 import com.paymybuddy.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -37,13 +38,13 @@ public class TransactionService {
         return transactionRepository.findTransactionsOfUser(user);
     }
 
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     public Transaction registerUserTransaction(
             User sender,
             User receiver,
             double amount,
             String description
-    ) throws InsufficientBalanceException {
+    ) throws InsufficientBalanceException, TransactionUserNotFoundException {
         double senderBalance = sender.getBalance();
 
         double fee = amount * this.getTransactionFee();
@@ -63,8 +64,15 @@ public class TransactionService {
         transaction.setFee(fee);
         transactionRepository.save(transaction);
 
-        userRepository.setUserBalance(sender.getId(), senderBalance - amount - fee);
-        userRepository.setUserBalance(receiver.getId(), receiver.getBalance() + amount);
+        int senderCount = userRepository.setUserBalance(sender.getId(), senderBalance - amount - fee);
+        if(senderCount == 0) {
+            throw new TransactionUserNotFoundException();
+        }
+
+        int receiverCount = userRepository.setUserBalance(receiver.getId(), receiver.getBalance() + amount);
+        if(receiverCount == 0) {
+            throw new TransactionUserNotFoundException();
+        }
 
         return transaction;
     }

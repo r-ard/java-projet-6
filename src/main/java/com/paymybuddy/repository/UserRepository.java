@@ -12,5 +12,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("UPDATE User u SET u.balance = :balance WHERE u.id = :userId")
     @Modifying
-    public void setUserBalance(int userId, double balance);
+    public int setUserBalance(int userId, double balance);
 }

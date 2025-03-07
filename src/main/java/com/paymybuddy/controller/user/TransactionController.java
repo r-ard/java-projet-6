@@ -4,6 +4,7 @@ import com.paymybuddy.dto.CreateUserTransactionDTO;
 import com.paymybuddy.dto.UserContactDTO;
 import com.paymybuddy.entity.Contact;
 import com.paymybuddy.exception.transaction.InsufficientBalanceException;
+import com.paymybuddy.exception.transaction.TransactionUserNotFoundException;
 import com.paymybuddy.security.CustomUserDetails;
 import com.paymybuddy.service.ContactService;
 import com.paymybuddy.service.TransactionService;
@@ -73,6 +74,9 @@ public class TransactionController {
         }
         catch(InsufficientBalanceException ex) {
             return "redirect:/dashboard/transaction?error=insufficient balance";
+        }
+        catch(TransactionUserNotFoundException ex) {
+            return "redirect:/dashboard/transaction?error=a user of the transaction doesn't exist";
         }
 
         model.addAttribute("username", user.getUsername());

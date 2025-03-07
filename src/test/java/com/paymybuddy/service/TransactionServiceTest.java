@@ -4,8 +4,10 @@ import com.paymybuddy.dto.UserTransactionDTO;
 import com.paymybuddy.entity.Contact;
 import com.paymybuddy.entity.Transaction;
 import com.paymybuddy.entity.User;
+import com.paymybuddy.exception.UserNotFoundException;
 import com.paymybuddy.exception.contact.NotContactOfUserException;
 import com.paymybuddy.exception.transaction.InsufficientBalanceException;
+import com.paymybuddy.exception.transaction.TransactionUserNotFoundException;
 import com.paymybuddy.repository.TransactionRepository;
 import com.paymybuddy.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,6 +73,8 @@ public class TransactionServiceTest {
         receiver.setId(2);
         receiver.setBalance(100.0);
 
+        when(userRepository.setUserBalance(any(), anyDouble())).thenReturn(1);
+
         double amount = 100.0; // fee = 100 * 0.005 = 0.5, total = 100.5
 
         assertThrows(InsufficientBalanceException.class, () -> {
@@ -79,7 +83,7 @@ public class TransactionServiceTest {
     }
 
     @Test
-    public void testRegisterUserTransactionSuccess() throws InsufficientBalanceException {
+    public void testRegisterUserTransactionSuccess() throws Exception {
         User sender = new User();
         sender.setId(1);
         sender.setBalance(200.0);
@@ -89,6 +93,8 @@ public class TransactionServiceTest {
 
         double amount = 100.0;
         String description = "Payment test";
+
+        when(userRepository.setUserBalance(any(), anyDouble())).thenReturn(1);
 
         Transaction transaction = transactionService.registerUserTransaction(sender, receiver, amount, description);
 
@@ -103,6 +109,26 @@ public class TransactionServiceTest {
         // Check users balances
         verify(userRepository).setUserBalance(sender.getId(), sender.getBalance() - amount - transaction.getFee());
         verify(userRepository).setUserBalance(receiver.getId(), receiver.getBalance() + amount);
+    }
+
+    @Test
+    public void testRegisterUserTransactionUserNotFound() {
+        User sender = new User();
+        sender.setId(1);
+        sender.setBalance(500.0);
+        User receiver = new User();
+        receiver.setId(2);
+        receiver.setBalance(100.0);
+
+
+        when(userRepository.setUserBalance(anyInt(), anyDouble())).thenReturn(1);
+        when(userRepository.setUserBalance(anyInt(), anyDouble())).thenReturn(0);
+
+        double amount = 100.0; // fee = 100 * 0.005 = 0.5, total = 100.5
+
+        assertThrows(TransactionUserNotFoundException.class, () -> {
+            transactionService.registerUserTransaction(sender, receiver, amount, "Paiement test");
+        });
     }
 
     @Test
