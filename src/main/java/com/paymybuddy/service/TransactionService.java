@@ -10,13 +10,20 @@ import com.paymybuddy.repository.TransactionRepository;
 import com.paymybuddy.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Component
 public class TransactionService {
+    @Value("${app.transactionfee}")
+    private String transactionFee;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -26,14 +33,12 @@ public class TransactionService {
     @Autowired
     private ContactService contactService;
 
-    private static final double TRANSACTION_FEE = 0.05; // 0.5%
-
     public List<Transaction> getUserTransactions(User user) {
         return transactionRepository.findTransactionsOfUser(user);
     }
 
     @Transactional
-    public void registerUserTransaction(
+    public Transaction registerUserTransaction(
             User sender,
             User receiver,
             double amount,
@@ -41,7 +46,7 @@ public class TransactionService {
     ) throws InsufficientBalanceException {
         double senderBalance = sender.getBalance();
 
-        double fee = amount * TRANSACTION_FEE;
+        double fee = amount * this.getTransactionFee();
 
         // Check if sender's has suffisant balance for transaction's amount + fee
         if(senderBalance < (amount + fee)) {
@@ -60,6 +65,8 @@ public class TransactionService {
 
         userRepository.setUserBalance(sender.getId(), senderBalance - amount - fee);
         userRepository.setUserBalance(receiver.getId(), receiver.getBalance() + amount);
+
+        return transaction;
     }
 
     public List<UserTransactionDTO> getViewUserTransactions(User user, int limit) {
@@ -90,6 +97,8 @@ public class TransactionService {
 
             }
 
+            LocalDateTime createdAt = transaction.getCreatedAt();
+
             UserTransactionDTO item = new UserTransactionDTO(
                     isSent,
                     contactName,
@@ -97,7 +106,7 @@ public class TransactionService {
                     transaction.getDescription(),
                     transaction.getAmount(),
                     transaction.getFee(),
-                    transaction.getCreatedAt().toString().replace('T', ' ')
+                    createdAt == null ? "" : createdAt.toString().replace('T', ' ')
             );
 
             out.add(item);
@@ -108,5 +117,18 @@ public class TransactionService {
         }
 
         return out;
+    }
+
+    protected double getTransactionFee() {
+        try {
+            double parsedValue = Double.parseDouble(this.transactionFee);
+            if(Double.isNaN(parsedValue)) throw new Exception();
+
+            // If fee is not 0, then convert it to on 1 factor
+            return parsedValue > 0 ? (parsedValue / 100.0D) : parsedValue;
+        }
+        catch(Exception e) {
+            return 0.005; // Default fee value is 0.005 -> 0.5%
+        }
     }
 }

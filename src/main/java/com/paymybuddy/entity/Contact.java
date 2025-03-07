@@ -40,6 +40,10 @@ public class Contact {
         this.name = name;
     }
 
+    public Contact(User user, User contact) {
+        this(user, contact, null);
+    }
+
     public Integer getId() {
         return id;
     }
