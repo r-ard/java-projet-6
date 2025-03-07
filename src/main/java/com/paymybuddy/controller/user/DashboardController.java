@@ -28,12 +28,8 @@ public class DashboardController {
         CustomUserDetails user = AuthenticationUtils.getAuthenticatedUser();
         List<UserTransactionDTO> viewTransactions = transactionService.getViewUserTransactions(
                 user.getUser(),
-                5
+                5 // Limit dashboard's transaction to 5 transactions
         );
-
-        // Only display 4 first transactions
-        if(viewTransactions.size() > 4)
-            viewTransactions = viewTransactions.subList(0, 4);
 
         model.addAttribute("username", user.getUsername());
         model.addAttribute("transactions", viewTransactions);
