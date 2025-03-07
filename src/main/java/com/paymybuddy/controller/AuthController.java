@@ -1,14 +1,12 @@
 package com.paymybuddy.controller;
 
 import com.paymybuddy.dto.UserRegistrationDTO;
-import com.paymybuddy.entity.User;
+import com.paymybuddy.exception.user.EmailAlreadyTakenException;
+import com.paymybuddy.exception.user.UsernameAlreadyTakenException;
 import com.paymybuddy.service.UserService;
 import com.paymybuddy.utils.AuthenticationUtils;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,14 +16,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Date;
-
 @Controller
 @Component
 public class AuthController {
-    @Value("${app.defaultbalance}")
-    private String defaultBalance;
-
     @Autowired
     private UserService userService;
 
@@ -91,30 +84,16 @@ public class AuthController {
             return "register?error=" + result.getFieldError().getDefaultMessage();
         }
 
-        if(userService.isEmailTaken(userDto.getEmail())) {
+        try {
+            userService.registerUser(userDto);
+        }
+        catch(EmailAlreadyTakenException exception) {
             return "register?error=email is already taken";
         }
-
-        if(userService.isUsernameTaken(userDto.getUsername())) {
+        catch(UsernameAlreadyTakenException exception) {
             return "register?error=username is already taken";
         }
 
-        User user = new User();
-        user.setUsername(userDto.getUsername());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setBalance( this.getDefaultBalance() );
-
-        userService.registerUser(user);
         return "redirect:/login?success";
-    }
-
-    protected double getDefaultBalance() {
-        try {
-            return Double.parseDouble(this.defaultBalance);
-        }
-        catch(Exception e) {
-            return 50.0D;
-        }
     }
 }

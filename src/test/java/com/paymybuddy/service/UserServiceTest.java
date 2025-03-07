@@ -1,8 +1,11 @@
 package com.paymybuddy.service;
 
+import com.paymybuddy.dto.UserRegistrationDTO;
 import com.paymybuddy.entity.User;
+import com.paymybuddy.exception.user.EmailAlreadyTakenException;
 import com.paymybuddy.exception.user.InvalidOldPasswordUpdateException;
 import com.paymybuddy.exception.user.NewEqualsOldPasswordUpdateException;
+import com.paymybuddy.exception.user.UsernameAlreadyTakenException;
 import com.paymybuddy.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,6 +34,10 @@ public class UserServiceTest {
         return new User("TestUser", "test@email.com", "password", 0.D);
     }
 
+    public UserRegistrationDTO generateTestUserRegistrationDTO() {
+        return new UserRegistrationDTO("TestUser", "test@email.com", "password", "password");
+    }
+
     @Test
     public void testGetUserByEmail() {
         User testUser = this.generateTestUser();
@@ -43,15 +50,40 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testRegisterUser() {
+    public void testRegisterUser() throws Exception {
         User testUser = this.generateTestUser();
+        UserRegistrationDTO testUserDTO = this.generateTestUserRegistrationDTO();
 
         when(userRepository.save(any(User.class))).thenReturn(testUser);
-
-        userService.registerUser(testUser);
+        userService.registerUser(testUserDTO);
 
         // Expects that Repository's save method has been called 1 time
-        verify(userRepository, times(1)).save(testUser);
+        verify(userRepository, times(1)).save(any(User.class));
+    }
+
+    @Test
+    public void testRegisterUserEmailExistsFail() {
+        User testUser = this.generateTestUser();
+        UserRegistrationDTO testUserDTO = this.generateTestUserRegistrationDTO();
+
+        when(userRepository.findByEmail(anyString())).thenReturn(testUser);
+
+        assertThrows(EmailAlreadyTakenException.class, () -> {
+            userService.registerUser(testUserDTO);
+        });
+    }
+
+    @Test
+    public void testRegisterUserUsernameExistsFail() {
+        User testUser = this.generateTestUser();
+        UserRegistrationDTO testUserDTO = this.generateTestUserRegistrationDTO();
+
+        when(userRepository.findByEmail(anyString())).thenReturn(null);
+        when(userRepository.findByUsername(anyString())).thenReturn(testUser);
+
+        assertThrows(UsernameAlreadyTakenException.class, () -> {
+            userService.registerUser(testUserDTO);
+        });
     }
 
     @Test
