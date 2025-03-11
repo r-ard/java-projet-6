@@ -1,28 +1,49 @@
 <header th:fragment="header">
-    <h2 class="company-title">Pay My Buddy</h2>
-    <nav>
-        <label class="header-message">Hello, <span th:text="${username}"></span></label>
+    <div class="top-header">
+        <h2 class="company-title">Pay My Buddy</h2>
+        <nav>
+            <label class="header-message">Hello, <span th:text="${username}"></span></label>
 
-        <hr class="horizontal-separator" />
+            <hr class="horizontal-separator" />
 
-        <a th:classappend="${selectedTab == 1} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard}" aria-label="Home">
+            <a th:classappend="${selectedTab == 1} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard}" aria-label="Home">
+                Home
+            </a>
+
+            <a th:classappend="${selectedTab == 2} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard/transaction}" aria-label="Transfer">
+                Transfer
+            </a>
+
+            <a th:classappend="${selectedTab == 4} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard/account}" aria-label="Profile">
+                Profile
+            </a>
+
+            <a th:classappend="${selectedTab == 3} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard/contacts}" aria-label="Contacts">
+                Contacts
+            </a>
+
+            <a class="nav-item logout-item" th:href="@{/logout}" aria-label="Log out">
+                Log out
+            </a>
+        </nav>
+    </div>
+    <div class="path-bar">
+        <a th:classappend="${selectedTab != 1} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard}" aria-label="Home">
             Home
         </a>
 
-        <a th:classappend="${selectedTab == 2} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard/activity}" aria-label="Transfer">
+        <label th:if="${selectedTab != 1}">/</label>
+
+        <a th:if="${selectedTab == 2}" class="nav-item" th:href="@{/dashboard/transaction}" aria-label="Transfer">
             Transfer
         </a>
 
-        <a th:classappend="${selectedTab == 4} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard/account}" aria-label="Profile">
+        <a th:if="${selectedTab == 4}" class="nav-item" th:href="@{/dashboard/account}" aria-label="Profile">
             Profile
         </a>
 
-        <a th:classappend="${selectedTab == 3} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard/contacts}" aria-label="Contacts">
+        <a th:if="${selectedTab == 3}" class="nav-item" th:href="@{/dashboard/contacts}" aria-label="Contacts">
             Contacts
         </a>
-
-        <a class="nav-item logout-item" th:href="@{/logout}" aria-label="Log out">
-            Log out
-        </a>
-    </nav>
+    </div>
 </header>

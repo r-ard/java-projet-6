@@ -33,18 +33,18 @@ public class AuthController {
             return "redirect:/dashboard";
         }
 
-        model.addAttribute("pageTitle", "PayMyBuddy - Connexion");
+        model.addAttribute("pageTitle", "PayMyBuddy - Log in");
 
         if(error != null) {
-            model.addAttribute("errorMessage", "Adresse email ou mot de passe invalide");
+            model.addAttribute("errorMessage", "Invalid email address or password");
         }
 
         if(success != null) {
-            model.addAttribute("successMessage", "Votre compte a bien été créer, veuillez vous connecter");
+            model.addAttribute("successMessage", "Your account has been created, please log in");
         }
 
         if(logout != null) {
-            model.addAttribute("successMessage", "Vous avez bien été déconnecté");
+            model.addAttribute("successMessage", "You have been successfully logged out");
         }
 
         return "auth/login";
@@ -59,7 +59,7 @@ public class AuthController {
             return "redirect:/dashboard";
         }
 
-        model.addAttribute("pageTitle", "PayMyBuddy - S'inscrire");
+        model.addAttribute("pageTitle", "PayMyBuddy - Sign up");
         model.addAttribute("user", new UserRegistrationDTO());
 
         if(error != null) {

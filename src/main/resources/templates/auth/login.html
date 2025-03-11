@@ -3,10 +3,8 @@
     <head th:replace="common/modules/head :: head"></head>
 
     <body>
-        <div th:replace="common/modules/header :: header"></div>
-
         <main th:fragment="content">
-            <form th:action="@{/login}" th:method="POST" class="form">
+            <form th:action="@{/login}" th:method="POST" class="form auth-form">
                 <h2 class="company-title">Pay My Buddy</h2>
                 <input type="text" name="username" aria-label="Username or email" aria-required="true" placeholder="Username or email" />
                 <input type="password" name="password" aria-label="Password" aria-required="true" placeholder="Password" />
@@ -20,8 +18,5 @@
             <label class="form-message error" th:if="${errorMessage}" th:text="${errorMessage}"></label>
             <label class="form-message success" th:if="${successMessage}" th:text="${successMessage}"></label>
         </main>
-
-        <div th:replace="common/modules/footer :: footer"></div>
-
     </body>
 </html>

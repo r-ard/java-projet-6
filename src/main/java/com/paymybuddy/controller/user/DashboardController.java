@@ -18,21 +18,13 @@ import java.util.List;
 @Controller
 public class DashboardController {
     @Autowired
-    private TransactionService transactionService;
-
-    @Autowired
     private UserService userService;
 
     @GetMapping("/dashboard")
     public String showDashboard(Model model) {
         CustomUserDetails user = AuthenticationUtils.getAuthenticatedUser();
-        List<UserTransactionDTO> viewTransactions = transactionService.getViewUserTransactions(
-                user.getUser(),
-                5 // Limit dashboard's transaction to 5 transactions
-        );
 
         model.addAttribute("username", user.getUsername());
-        model.addAttribute("transactions", viewTransactions);
         model.addAttribute("balance", String.valueOf(user.getUser().getBalance()));
         model.addAttribute("selectedTab", 1);
 

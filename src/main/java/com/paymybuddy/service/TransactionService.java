@@ -9,6 +9,7 @@ import com.paymybuddy.exception.transaction.InsufficientBalanceException;
 import com.paymybuddy.exception.transaction.TransactionUserNotFoundException;
 import com.paymybuddy.repository.TransactionRepository;
 import com.paymybuddy.repository.UserRepository;
+import com.paymybuddy.utils.FormatUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +39,14 @@ public class TransactionService {
         return transactionRepository.findTransactionsOfUser(user);
     }
 
+    public List<Transaction> getNumbersUserTransactions(User user, int limit) {
+        return transactionRepository.findNumbersTransactionsOfUser(user, limit);
+    }
+
+    public List<Transaction> getPagedUserTransactions(User user, int limit, int page) {
+        return transactionRepository.findPagedTransactionsOfUser(user, limit, (page - 1) * limit);
+    }
+
     @Transactional(rollbackOn = Exception.class)
     public Transaction registerUserTransaction(
             User sender,
@@ -47,7 +56,7 @@ public class TransactionService {
     ) throws InsufficientBalanceException, TransactionUserNotFoundException {
         double senderBalance = sender.getBalance();
 
-        double fee = amount * this.getTransactionFee();
+        double fee = FormatUtils.roundDecimal(amount * this.getTransactionFee(), 2); // Round ex : 0.133 -> 0.14
 
         // Check if sender's has suffisant balance for transaction's amount + fee
         if(senderBalance < (amount + fee)) {
@@ -77,10 +86,24 @@ public class TransactionService {
         return transaction;
     }
 
-    public List<UserTransactionDTO> getViewUserTransactions(User user, int limit) {
+    public long getUserTransactionsAmount(User user) {
+        return transactionRepository.countTransactionsOfUser(user);
+    }
+
+    public List<UserTransactionDTO> getViewUserTransactions(User user, int limit, int page) {
         List<UserTransactionDTO> out = new ArrayList<>();
 
-        List<Transaction> userTransactions = this.getUserTransactions(user);
+        List<Transaction> userTransactions = null;
+
+        if(limit == -1) {
+            userTransactions = this.getUserTransactions(user);
+        }
+        else if(page <= 0) {
+            userTransactions = this.getNumbersUserTransactions(user, limit);
+        }
+        else {
+            userTransactions = this.getPagedUserTransactions(user, limit, page);
+        }
 
         for(Transaction transaction : userTransactions) {
             User receiver = transaction.getReceiver();
@@ -118,10 +141,6 @@ public class TransactionService {
             );
 
             out.add(item);
-
-            if(limit > 0 && out.size() >= limit) {
-                break;
-            }
         }
 
         return out;

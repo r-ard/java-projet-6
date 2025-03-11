@@ -1,7 +1,7 @@
 :root {
     --primary-color: #444;
     --primary-text-color: #fefefe;
-    --secondary-color: dodgerblue;
+    --secondary-color: #0076d9;
     --secondary-text-color: #fefefe;
 }
 
@@ -42,13 +42,37 @@ footer {
 }
 
 header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #fefefe;
+    color: #444;
+}
+
+.top-header {
+    width: 100%;
     padding: 10px 20px;
+    background-color: #fefefe;
+    color: #444;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--secondary-color);
-    color: var(--secondary-text-color);
 }
+
+.path-bar {
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+    background-color: #fafafa;
+}
+
+    .path-bar * {
+        margin-bottom: 0!important;
+    }
 
 nav {
     display: flex;
@@ -78,14 +102,14 @@ main {
 }
 
 .form {
-    padding: 20px;
-    box-shadow: 0 0 2px #aaa;
+    padding: 10px 20px;
+    box-shadow: 0 0 2px #444;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #f0f0f0;
+    background-color: #f8f8f8;
 }
 
     .form > * {
@@ -96,6 +120,10 @@ main {
         .form > *:first-child {
             margin-top: 0;
         }
+
+.auth-form {
+    background-color: #fefefe;
+}
 
 input, select {
     border: 0!important;
@@ -171,14 +199,14 @@ a {
 }
 
 .nav-item {
-    color: var(--secondary-text-color);
+    color: #444;
     text-decoration: none;
 
     transition: opacity 0.2s, color 0.2s;
 }
 
     .nav-item.selected {
-        color: #eee;
+        color: var(--secondary-color);
 
         text-decoration: underline;
         text-underline-offset: 2px;
@@ -203,11 +231,19 @@ a {
 }
 
 .dashboard-body {
-    flex-direction: row;
+    width: 100%;
+    flex-direction: column;
     gap: 20px;
     align-items: flex-start;
-    padding-top: 15vh;
+    justify-content: center;
+    padding-top: 20px;
+    padding-left: 5vw;
+    padding-right: 5vw;
 }
+
+    .dashboard-body > * {
+        width: 100%;
+    }
 
 .balance-actions {
     display: flex;
@@ -246,8 +282,10 @@ a {
 
 .remember-me-wrapper {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
     .remember-me-wrapper input {
@@ -263,6 +301,10 @@ a {
     background-color: #0076d9;
 }
 
+.company-button {
+    background-color: #70be53;
+}
+
 .company-title {
     padding: 6px 10px;
     background-color: #70be53;
@@ -270,12 +312,69 @@ a {
     color: #fefefe;
     font-size: 18px;
     text-align: center;
-    margin-bottom: 14px;
     font-weight: 500;
-    letter-spacing: 1px;
-    width: inherit!important;
+}
+
+.form .company-title {
+    width: inherit;
+    margin-bottom: 14px;
+    margin-top: 0;
 }
 
 .account-form input {
     min-width: 250px;
+}
+
+.transaction-fields {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.transaction-fields > * {
+    flex: 1;
+}
+
+.pages-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .page-item {
+        border: 1px solid #aaa;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .page-item:first-child {
+        border-radius: 4px 0 0 4px;
+    }
+
+    .page-item:last-child {
+        border-radius: 0 4px 4px 0;
+    }
+
+    .selected-page-item {
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        color: blue;
+    }
+
+.transaction-add-contact-wrapper {
+    margin-bottom: -20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table thead th {
+    background-color: #70be53!important;
+    color: #fefefe!important;
 }

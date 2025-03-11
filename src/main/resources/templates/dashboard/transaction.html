@@ -4,20 +4,36 @@
     <body>
         <div th:replace="common/modules/auth-header :: header"></div>
 
-        <main th:fragment="content">
+        <main class="dashboard-body" th:fragment="content">
+            <form th:action="@{/dashboard/contacts}" th:method="GET" class="transaction-add-contact-wrapper">
+                <h3>Send money</h3>
+                <button type="submit">Add connection</button>
+            </form>
             <form th:action="@{/dashboard/transaction}" th:method="POST" class="form">
-                <h2>Envoyer de l'argent</h2>
-                <select name="contactId" aria-required="true">
-                    <option value="" disabled selected>Sélectionner un contacte</option>
-                    <option th:each="contact : ${contacts}" th:value="${contact.id}" th:text="${contact.name}"></option>
-                </select>
-                <input type="number" name="amount" value="0.10" step="0.10" placeholder="Montant" aria-label="Montant à envoyer" aria-required="true" />
-                <textarea placeholder="Description (optionnel)" aria-label="Description de la transaction (optionnel)" name="description"></textarea>
-                <button type="submit">Envoyer</button>
+                <div class="transaction-fields">
+                    <select name="contactId" aria-required="true">
+                        <option value="" disabled selected>Select a contact</option>
+                        <option th:each="contact : ${contacts}" th:value="${contact.id}" th:text="${contact.name}"></option>
+                    </select>
+                    <input type="number" name="amount" value="0.10" step="0.10" placeholder="Amount" aria-label="Amount to send" aria-required="true" />
+                    <textarea placeholder="Description (optionnal)" aria-label="Description (optionnal)" name="description"></textarea>
+                    <button class="company-button" type="submit">Pay</button>
+                </div>
             </form>
             <label class="form-message error" th:if="${errorMessage}" th:text="${errorMessage}"></label>
+            <div th:replace="common/modules/transaction-table :: transaction-table"></div>
+            <div class="pages-wrapper" th:if="${pages.size() > 0}">
+                <div th:if="${primaryPage != null}" class="page-item">
+                    <a th:href="@{/dashboard/transaction(page=${primaryPage})}"><<</a>
+                </div>
+                <div class="page-item" th:each="page : ${pages}">
+                    <a th:if="${page.isCurrent == true}" class="selected-page-item" th:href="@{/dashboard/transaction(page=${page.pageValue})}" th:text="${page.pageValue}"></a>
+                    <a th:if="${page.isCurrent == false}" th:href="@{/dashboard/transaction(page=${page.pageValue})}" th:text="${page.pageValue}"></a>
+                </div>
+                <div th:if="${latestPage != null}" class="page-item">
+                    <a th:href="@{/dashboard/transaction(page=${latestPage})}">>></a>
+                </div>
+            </div>
         </main>
-
-        <div th:replace="common/modules/footer :: footer"></div>
     </body>
 </html>

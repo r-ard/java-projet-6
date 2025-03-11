@@ -5,9 +5,8 @@
         <div th:replace="common/modules/auth-header :: header"></div>
 
         <main th:fragment="content">
-            <h2>Le paiement a été effectué avec success !</h2>
+            <h2>The payment has been successfully send !</h2>
+            <a th:href="@{/dashboard/transaction}">Go back to transfer</a>
         </main>
-
-        <div th:replace="common/modules/footer :: footer"></div>
     </body>
 </html>

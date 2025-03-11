@@ -7,18 +7,16 @@
 <main th:fragment="content">
     <form th:action="@{/dashboard/account/change-password}" th:method="POST" class="form account-form">
         <h2>Mon compte</h2>
-        <label class="input-label">Nom d'utilisateur</label>
+        <label class="input-label">Username</label>
         <input type="text" th:value="|@${username}|" disabled />
-        <label class="input-label">Adresse email</label>
+        <label class="input-label">Email address</label>
         <input type="text" th:value="${email}" disabled />
-        <input type="password" name="oldpassword" aria-label="Mot de passe actuel" placeholder="Mot de passe actuel" aria-required="true" />
-        <input type="password" name="newpassword" aria-label="Nouveau mot de passe" placeholder="Nouveau mot de passe" aria-required="true" />
-        <button type="submit">Changer de mot de passe</button>
+        <input type="password" name="oldpassword" aria-label="Current password" placeholder="Current password" aria-required="true" />
+        <input type="password" name="newpassword" aria-label="New password" placeholder="New password" aria-required="true" />
+        <button class="button submit" type="submit">Change password</button>
     </form>
     <label class="form-message error" th:if="${errorMessage}" th:text="${errorMessage}"></label>
     <label class="form-message success" th:if="${successMessage}" th:text="${successMessage}"></label>
 </main>
-
-<div th:replace="common/modules/footer :: footer"></div>
 </body>
 </html>

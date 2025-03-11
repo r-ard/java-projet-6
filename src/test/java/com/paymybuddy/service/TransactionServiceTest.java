@@ -159,7 +159,7 @@ public class TransactionServiceTest {
         contact.setName("ContactName");
         when(contactService.getUserContactOfUser(sender, receiver)).thenReturn(contact);
 
-        List<UserTransactionDTO> dtos = transactionService.getViewUserTransactions(sender, 10);
+        List<UserTransactionDTO> dtos = transactionService.getViewUserTransactions(sender, 10, -1);
         assertEquals(1, dtos.size());
 
         UserTransactionDTO dto = dtos.get(0);
@@ -199,7 +199,7 @@ public class TransactionServiceTest {
         when(contactService.getUserContactOfUser(receiver, sender))
                 .thenThrow(new NotContactOfUserException(sender.getId()));
 
-        List<UserTransactionDTO> dtos = transactionService.getViewUserTransactions(receiver, 10);
+        List<UserTransactionDTO> dtos = transactionService.getViewUserTransactions(receiver, 10, -1);
         assertEquals(1, dtos.size());
         UserTransactionDTO dto = dtos.get(0);
 
@@ -249,7 +249,7 @@ public class TransactionServiceTest {
 
         when(contactService.getUserContactOfUser(sender, receiver)).thenReturn(null);
 
-        List<UserTransactionDTO> dtos = transactionService.getViewUserTransactions(sender, 1);
+        List<UserTransactionDTO> dtos = transactionService.getViewUserTransactions(sender, 1, -1);
         assertEquals(1, dtos.size());
     }
 
