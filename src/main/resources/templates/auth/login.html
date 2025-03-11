@@ -7,15 +7,15 @@
 
         <main th:fragment="content">
             <form th:action="@{/login}" th:method="POST" class="form">
-                <h2>Connexion</h2>
-                <input type="text" name="username" aria-label="Nom d'utilisateur ou adresse email" aria-required="true" placeholder="Nom d'utilisateur ou adresse email" />
-                <input type="password" name="password" aria-label="Mot de passe" aria-required="true" placeholder="Mot de passe" />
+                <h2 class="company-title">Pay My Buddy</h2>
+                <input type="text" name="username" aria-label="Username or email" aria-required="true" placeholder="Username or email" />
+                <input type="password" name="password" aria-label="Password" aria-required="true" placeholder="Password" />
                 <div class="remember-me-wrapper">
                     <input id="rememberMe" aria-labelledby="rememberMe-label" type="checkbox" name="rememberMe"  />
-                    <label id="rememberMe-label" for="rememberMe">Se souvenir</label>
+                    <label id="rememberMe-label" for="rememberMe">Remember me</label>
                 </div>
-                <button type="submit">Se connecter</button>
-                <label class="form-message">Pas de compte ? <a th:href="@{/register}">S'inscrire</a></label>
+                <button class="button submit" type="submit">Log in</button>
+                <label class="form-message">You're not registered ? <a th:href="@{/register}">Sign up</a></label>
             </form>
             <label class="form-message error" th:if="${errorMessage}" th:text="${errorMessage}"></label>
             <label class="form-message success" th:if="${successMessage}" th:text="${successMessage}"></label>

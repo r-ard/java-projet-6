@@ -1,28 +1,28 @@
 <header th:fragment="header">
-    <h1>PayMyBuddy</h1>
+    <h2 class="company-title">Pay My Buddy</h2>
     <nav>
-        <label class="header-message">Bonjour, <span th:text="${username}"></span></label>
+        <label class="header-message">Hello, <span th:text="${username}"></span></label>
 
         <hr class="horizontal-separator" />
 
-        <a th:classappend="${selectedTab == 1} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard}" aria-label="Aperçu">
-            Aperçu
+        <a th:classappend="${selectedTab == 1} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard}" aria-label="Home">
+            Home
         </a>
 
-        <a th:classappend="${selectedTab == 2} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard/activity}" aria-label="Activité">
-            Activité
+        <a th:classappend="${selectedTab == 2} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard/activity}" aria-label="Transfer">
+            Transfer
+        </a>
+
+        <a th:classappend="${selectedTab == 4} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard/account}" aria-label="Profile">
+            Profile
         </a>
 
         <a th:classappend="${selectedTab == 3} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard/contacts}" aria-label="Contacts">
             Contacts
         </a>
 
-        <a th:classappend="${selectedTab == 4} ? 'selected' : ''" class="nav-item" th:href="@{/dashboard/account}" aria-label="Mon compte">
-            Mon compte
-        </a>
-
-        <a class="nav-item logout-item" th:href="@{/logout}" aria-label="Se déconnecter">
-            Se déconnecter
+        <a class="nav-item logout-item" th:href="@{/logout}" aria-label="Log out">
+            Log out
         </a>
     </nav>
 </header>
