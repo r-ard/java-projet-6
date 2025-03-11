@@ -63,7 +63,7 @@ public class AuthController {
         model.addAttribute("user", new UserRegistrationDTO());
 
         if(error != null) {
-            model.addAttribute("errorMessage", error.length() > 0 ? error : "Veuillez bien remplir tous les champs");
+            model.addAttribute("errorMessage", error.length() > 0 ? error : "Please fill all fields");
         }
 
         return "auth/register";
@@ -77,21 +77,21 @@ public class AuthController {
     ) {
 
         if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
-            result.rejectValue("confirmPassword", "error.user", "Les mots de passe ne correspondent pas");
+            result.rejectValue("confirmPassword", "error.user", "Passwords don't match");
         }
 
         if (result.hasErrors()) {
-            return "register?error=" + result.getFieldError().getDefaultMessage();
+            return "redirect:/register?error=" + result.getFieldError().getDefaultMessage();
         }
 
         try {
             userService.registerUser(userDto);
         }
         catch(EmailAlreadyTakenException exception) {
-            return "register?error=email is already taken";
+            return "redirect:/register?error=Email is already taken";
         }
         catch(UsernameAlreadyTakenException exception) {
-            return "register?error=username is already taken";
+            return "redirect:/register?error=Username is already taken";
         }
 
         return "redirect:/login?success";

@@ -33,11 +33,11 @@ public class UserController {
         model.addAttribute("selectedTab", 4);
 
         if(error != null) {
-            model.addAttribute("errorMessage", error.length() > 0 ? error : "Veuillez bien remplir tous les champs");
+            model.addAttribute("errorMessage", error.length() > 0 ? error : "Please fill all fields");
         }
 
         if(success != null) {
-            model.addAttribute("successMessage", success.length() > 0 ? success : "Le contacte a été ajouté");
+            model.addAttribute("successMessage", success.length() > 0 ? success : "Your password has been successfully changed !");
         }
 
         return "dashboard/account";

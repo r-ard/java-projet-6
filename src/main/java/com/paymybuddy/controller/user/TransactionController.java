@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +35,16 @@ public class TransactionController {
     private UserService userService;
 
     @GetMapping("/dashboard/transaction")
-    public String showTransactionForm(Model model) {
+    public String showTransactionForm(
+            @RequestParam(value = "error", required = false) String error,
+            Model model
+    ) {
         CustomUserDetails user = AuthenticationUtils.getAuthenticatedUser();
         List<Contact> userContacts = contactService.getContactsOfUser(user.getUser());
+
+        if(error != null) {
+            model.addAttribute("errorMessage", !error.isEmpty() ? error : "Veuillez bien remplir tous les champs");
+        }
 
         model.addAttribute("username", user.getUsername());
         model.addAttribute("contacts", userContacts);
@@ -66,17 +74,17 @@ public class TransactionController {
             }
         }
         catch(Exception ex) {
-            return "redirect:/dashboard/transaction?error=unknown contact";
+            return "redirect:/dashboard/transaction?error=Unknown contact";
         }
 
         try {
             transactionService.registerUserTransaction(user.getUser(), contact.getContact(), transactionDto.getAmount(), transactionDto.getDescription());
         }
         catch(InsufficientBalanceException ex) {
-            return "redirect:/dashboard/transaction?error=insufficient balance";
+            return "redirect:/dashboard/transaction?error=Insufficient balance";
         }
         catch(TransactionUserNotFoundException ex) {
-            return "redirect:/dashboard/transaction?error=a user of the transaction doesn't exist";
+            return "redirect:/dashboard/transaction?error=A user of the transaction doesn't exist";
         }
 
         model.addAttribute("username", user.getUsername());
