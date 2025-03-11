@@ -56,6 +56,9 @@ public class TransactionService {
     ) throws InsufficientBalanceException, TransactionUserNotFoundException {
         double senderBalance = sender.getBalance();
 
+        // Clean amount value
+        amount = FormatUtils.roundDecimal(amount, 2);
+
         double fee = FormatUtils.roundDecimal(amount * this.getTransactionFee(), 2); // Round ex : 0.133 -> 0.14
 
         // Check if sender's has suffisant balance for transaction's amount + fee

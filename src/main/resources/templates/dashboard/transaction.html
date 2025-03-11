@@ -12,7 +12,7 @@
             <form th:action="@{/dashboard/transaction}" th:method="POST" class="form">
                 <div class="transaction-fields">
                     <select name="contactId" aria-required="true">
-                        <option value="" disabled selected>Select a contact</option>
+                        <option value="" disabled selected>Select a connection</option>
                         <option th:each="contact : ${contacts}" th:value="${contact.id}" th:text="${contact.name}"></option>
                     </select>
                     <input type="number" name="amount" value="0.10" step="0.10" placeholder="Amount" aria-label="Amount to send" aria-required="true" />
