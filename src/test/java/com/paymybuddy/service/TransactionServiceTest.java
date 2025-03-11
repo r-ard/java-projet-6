@@ -159,7 +159,7 @@ public class TransactionServiceTest {
         contact.setName("ContactName");
         when(contactService.getUserContactOfUser(sender, receiver)).thenReturn(contact);
 
-        List<UserTransactionDTO> dtos = transactionService.getViewUserTransactions(sender, 10, -1);
+        List<UserTransactionDTO> dtos = transactionService.getViewUserTransactions(sender, -1, -1);
         assertEquals(1, dtos.size());
 
         UserTransactionDTO dto = dtos.get(0);
@@ -199,7 +199,7 @@ public class TransactionServiceTest {
         when(contactService.getUserContactOfUser(receiver, sender))
                 .thenThrow(new NotContactOfUserException(sender.getId()));
 
-        List<UserTransactionDTO> dtos = transactionService.getViewUserTransactions(receiver, 10, -1);
+        List<UserTransactionDTO> dtos = transactionService.getViewUserTransactions(receiver, -1, -1);
         assertEquals(1, dtos.size());
         UserTransactionDTO dto = dtos.get(0);
 
@@ -213,7 +213,7 @@ public class TransactionServiceTest {
     }
 
     @Test
-    public void testGetViewUserTransactions_WithLimit() throws Exception {
+    public void testGetViewUserTransactionsWithLimit() throws Exception {
         // Vérifier que la limite d'affichage des transactions est respectée
         User sender = new User();
         sender.setId(1);
@@ -232,6 +232,7 @@ public class TransactionServiceTest {
         transaction1.setAmount(50.0);
         transaction1.setFee(0.25);
 
+        // Useless trnasactions
         Transaction transaction2 = new Transaction();
         transaction2.setSender(sender);
         transaction2.setReceiver(receiver);
@@ -242,9 +243,8 @@ public class TransactionServiceTest {
         List<Transaction> userTransactions = new ArrayList<>();
 
         userTransactions.add(transaction1);
-        userTransactions.add(transaction2);
 
-        when(transactionRepository.findTransactionsOfUser(sender))
+        when(transactionRepository.findNumbersTransactionsOfUser(sender, anyInt()))
                 .thenReturn(userTransactions);
 
         when(contactService.getUserContactOfUser(sender, receiver)).thenReturn(null);

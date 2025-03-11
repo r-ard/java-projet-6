@@ -49,6 +49,12 @@ header {
     color: #444;
 }
 
+.landing-header {
+    padding: 10px 20px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .top-header {
     width: 100%;
     padding: 10px 20px;
@@ -122,6 +128,7 @@ main {
         }
 
 .auth-form {
+    padding: 20px;
     background-color: #fefefe;
 }
 
@@ -140,6 +147,34 @@ input, select {
 }
 
     input:focus, select:focus {
+        box-shadow: 0 0 4px var(--secondary-color);
+    }
+
+.auth-input-wrapper {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    align-items: center;
+    min-width: 250px;
+    padding: 6px;
+
+    box-shadow: 0 0 2px #aaa;
+    border-radius: 4px;
+
+    transition: box-shadow 0.2s;
+}
+
+    .auth-input-wrapper img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .auth-input-wrapper input, .auth-input-wrapper select {
+        box-shadow: none!important;
+        border-radius: 0!important;
+    }
+
+    .auth-input-wrapper:has(input:focus), .auth-input-wrapper:has(select:focus) {
         box-shadow: 0 0 4px var(--secondary-color);
     }
 

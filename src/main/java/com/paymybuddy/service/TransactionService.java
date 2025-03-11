@@ -76,12 +76,12 @@ public class TransactionService {
         transaction.setFee(fee);
         transactionRepository.save(transaction);
 
-        int senderCount = userRepository.setUserBalance(sender.getId(), senderBalance - amount - fee);
+        int senderCount = userRepository.setUserBalance(sender.getId(), FormatUtils.roundDecimal(senderBalance - amount - fee, 2));
         if(senderCount == 0) {
             throw new TransactionUserNotFoundException();
         }
 
-        int receiverCount = userRepository.setUserBalance(receiver.getId(), receiver.getBalance() + amount);
+        int receiverCount = userRepository.setUserBalance(receiver.getId(), FormatUtils.roundDecimal(receiver.getBalance() + amount, 2));
         if(receiverCount == 0) {
             throw new TransactionUserNotFoundException();
         }

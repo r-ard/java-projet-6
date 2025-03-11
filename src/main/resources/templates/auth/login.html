@@ -6,13 +6,19 @@
         <main th:fragment="content">
             <form th:action="@{/login}" th:method="POST" class="form auth-form">
                 <h2 class="company-title">Pay My Buddy</h2>
-                <input type="text" name="username" aria-label="Username or email" aria-required="true" placeholder="Username or email" />
-                <input type="password" name="password" aria-label="Password" aria-required="true" placeholder="Password" />
+                <div class="auth-input-wrapper">
+                    <img th:src="@{/images/email.svg}" />
+                    <input type="text" name="username" aria-label="Username or email" aria-required="true" placeholder="Username or email" />
+                </div>
+                <div class="auth-input-wrapper">
+                    <img th:src="@{/images/password.svg}" />
+                    <input type="password" name="password" aria-label="Password" aria-required="true" placeholder="Password" />
+                </div>
                 <div class="remember-me-wrapper">
                     <input id="rememberMe" aria-labelledby="rememberMe-label" type="checkbox" name="rememberMe"  />
                     <label id="rememberMe-label" for="rememberMe">Remember me</label>
                 </div>
-                <button class="button submit" type="submit">Log in</button>
+                <button class="button submit" type="submit">Login</button>
                 <label class="form-message">You're not registered ? <a th:href="@{/register}">Sign up</a></label>
             </form>
             <label class="form-message error" th:if="${errorMessage}" th:text="${errorMessage}"></label>
