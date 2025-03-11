@@ -73,8 +73,6 @@ public class TransactionServiceTest {
         receiver.setId(2);
         receiver.setBalance(100.0);
 
-        when(userRepository.setUserBalance(any(), anyDouble())).thenReturn(1);
-
         double amount = 100.0; // fee = 100 * 0.005 = 0.5, total = 100.5
 
         assertThrows(InsufficientBalanceException.class, () -> {
@@ -94,7 +92,7 @@ public class TransactionServiceTest {
         double amount = 100.0;
         String description = "Payment test";
 
-        when(userRepository.setUserBalance(any(), anyDouble())).thenReturn(1);
+        when(userRepository.setUserBalance(anyInt(), anyDouble())).thenReturn(1);
 
         Transaction transaction = transactionService.registerUserTransaction(sender, receiver, amount, description);
 
