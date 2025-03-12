@@ -413,3 +413,7 @@ a {
     background-color: #70be53!important;
     color: #fefefe!important;
 }
+
+.table tbody tr:nth-child(odd) th, .table tbody tr:nth-child(odd) td {
+    background-color: #f0f0f0;
+}
